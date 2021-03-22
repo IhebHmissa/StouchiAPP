@@ -5,6 +5,7 @@ import com.mycompany.myapp.config.Constants;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.validation.constraints.Email;
@@ -46,12 +47,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Field("last_name")
     private String lastName;
 
+    private List<Categorie> UserCategories;
+
     @Email
     @Size(min = 5, max = 254)
     @Indexed
     private String email;
 
-    private boolean activated = false;
+    private boolean activated = true;
 
     @Size(min = 2, max = 10)
     @Field("lang_key")
@@ -180,6 +183,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<Categorie> getUserCategories() {
+        return UserCategories;
+    }
+
+    public void setUserCategories(List<Categorie> userCategories) {
+        UserCategories = userCategories;
     }
 
     @Override
