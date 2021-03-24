@@ -33,6 +33,8 @@ public class AdminUserDTO {
     @Size(max = 256)
     private String imageUrl;
 
+    private float userSolde;
+
     private boolean activated = false;
 
     @Size(min = 2, max = 10)
@@ -60,6 +62,7 @@ public class AdminUserDTO {
         this.email = user.getEmail();
         this.activated = user.isActivated();
         this.imageUrl = user.getImageUrl();
+        this.userSolde = user.getUserSolde();
         this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
@@ -170,6 +173,14 @@ public class AdminUserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public float getUserSolde() {
+        return userSolde;
+    }
+
+    public void setUserSolde(float userSolde) {
+        this.userSolde = userSolde;
     }
 
     // prettier-ignore

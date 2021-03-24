@@ -2,8 +2,10 @@ package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.config.Constants;
 import com.mycompany.myapp.domain.Authority;
+import com.mycompany.myapp.domain.Categorie;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.AuthorityRepository;
+import com.mycompany.myapp.repository.CategoriesRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
@@ -38,17 +40,20 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    private final CategoriesRepository categoriesRepository;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        CategoriesRepository categoriesRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.categoriesRepository = categoriesRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -140,7 +145,116 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+        newUser.setUserSolde(userDTO.getUserSolde());
+        Categorie cat1 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Nourritures et boissons", "FFFFF");
+        categoriesRepository.save(cat1);
+        Categorie cat2 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Logement", "FFFFF");
+        categoriesRepository.save(cat2);
+        Categorie cat3 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Santé", "FFFFF");
+        categoriesRepository.save(cat3);
+        Categorie cat4 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Services public", "FFFFF");
+        categoriesRepository.save(cat4);
+        Categorie cat5 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Transport", "FFFFF");
+        categoriesRepository.save(cat5);
+        Categorie cat6 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Education", "FFFFF");
+        categoriesRepository.save(cat6);
+        Categorie cat7 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Loisir", "FFFFF");
+        categoriesRepository.save(cat7);
+        Categorie cat8 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Divers", "FFFFF");
+        categoriesRepository.save(cat8);
+        Categorie cat9 = new Categorie("Depense", newUser.getLogin(), "Catego", 0, "Imprévus", "FFFFF");
+        categoriesRepository.save(cat9);
+        Categorie cat10 = new Categorie("Depense", newUser.getLogin(), "Nourritures et boissons", 0, "Alimentation", "FFFFF");
+        categoriesRepository.save(cat10);
+        Categorie cat11 = new Categorie("Depense", newUser.getLogin(), "Nourritures et boissons", 0, "Bar café", "FFFFF");
+        categoriesRepository.save(cat11);
+        Categorie cat12 = new Categorie("Depense", newUser.getLogin(), "Nourritures et boissons", 0, "Restaurant Fast Food", "FFFFF");
+        categoriesRepository.save(cat12);
+        Categorie cat13 = new Categorie("Depense", newUser.getLogin(), "Logement", 0, "Loyer", "FFFFF");
+        categoriesRepository.save(cat13);
+        Categorie cat14 = new Categorie("Depense", newUser.getLogin(), "Logement", 0, "Prêt", "FFFFF");
+        categoriesRepository.save(cat14);
+        Categorie cat15 = new Categorie("Depense", newUser.getLogin(), "Logement", 0, "Taxes", "FFFFF");
+        categoriesRepository.save(cat15);
+        Categorie cat16 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Assurances", "FFFFF");
+        categoriesRepository.save(cat16);
+        Categorie cat17 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Consultation", "FFFFF");
+        categoriesRepository.save(cat17);
+        Categorie cat18 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Médicaments", "FFFFF");
+        categoriesRepository.save(cat18);
+        Categorie cat19 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Radiologie", "FFFFF");
+        categoriesRepository.save(cat19);
+        Categorie cat20 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Hospitalisation", "FFFFF");
+        categoriesRepository.save(cat20);
+        Categorie cat21 = new Categorie("Depense", newUser.getLogin(), "Santé", 0, "Autre personnel médical", "FFFFF");
+        categoriesRepository.save(cat21);
+        Categorie cat22 = new Categorie("Depense", newUser.getLogin(), "Services public", 0, "Electricité", "FFFFF");
+        categoriesRepository.save(cat22);
+        Categorie cat23 = new Categorie("Depense", newUser.getLogin(), "Services public", 0, "Chauffage", "FFFFF");
+        categoriesRepository.save(cat23);
+        Categorie cat24 = new Categorie("Depense", newUser.getLogin(), "Services public", 0, "Eau", "FFFFF");
+        categoriesRepository.save(cat24);
+        Categorie cat25 = new Categorie("Depense", newUser.getLogin(), "Services public", 0, "Téléphone", "FFFFF");
+        categoriesRepository.save(cat25);
+        Categorie cat26 = new Categorie("Depense", newUser.getLogin(), "Services public", 0, "Internet", "FFFFF");
+        categoriesRepository.save(cat26);
+        Categorie cat27 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Transports communs", "FFFFF");
+        categoriesRepository.save(cat27);
+        Categorie cat28 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Taxi", "FFFFF");
+        categoriesRepository.save(cat28);
+        Categorie cat29 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Voyages", "FFFFF");
+        categoriesRepository.save(cat29);
+        Categorie cat30 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Assurances", "FFFFF");
+        categoriesRepository.save(cat30);
+        Categorie cat31 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Entretiens des véhicules", "FFFFF");
+        categoriesRepository.save(cat31);
+        Categorie cat32 = new Categorie("Depense", newUser.getLogin(), "Transport", 0, "Carburant", "FFFFF");
+        categoriesRepository.save(cat32);
+        Categorie cat33 = new Categorie("Depense", newUser.getLogin(), "Education", 0, "Inscriptions", "FFFFF");
+        categoriesRepository.save(cat33);
+        Categorie cat34 = new Categorie("Depense", newUser.getLogin(), "Education", 0, "Cours de soutien", "FFFFF");
+        categoriesRepository.save(cat34);
+        Categorie cat35 = new Categorie("Depense", newUser.getLogin(), "Education", 0, "Fourniture", "FFFFF");
+        categoriesRepository.save(cat35);
+        Categorie cat36 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Culture et évènements sportifs", "FFFFF");
+        categoriesRepository.save(cat36);
+        Categorie cat37 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Bien-être beauté", "FFFFF");
+        categoriesRepository.save(cat37);
+        Categorie cat38 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Assurances des biens", "FFFFF");
+        categoriesRepository.save(cat38);
+        Categorie cat39 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Livre", "FFFFF");
+        categoriesRepository.save(cat39);
+        Categorie cat40 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Abonnements", "FFFFF");
+        categoriesRepository.save(cat40);
+        Categorie cat41 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Sport remise en forme", "FFFFF");
+        categoriesRepository.save(cat41);
+        Categorie cat42 = new Categorie("Depense", newUser.getLogin(), "Loisir", 0, "Hobbies et passion", "FFFFF");
+        categoriesRepository.save(cat42);
+        Categorie cat43 = new Categorie("Depense", newUser.getLogin(), "Divers", 0, "Cadeaux", "FFFFF");
+        categoriesRepository.save(cat43);
+        Categorie cat44 = new Categorie("Depense", newUser.getLogin(), "Divers", 0, "Animaux", "FFFFF");
+        categoriesRepository.save(cat44);
+        Categorie cat45 = new Categorie("Depense", newUser.getLogin(), "Divers", 0, "Jardin", "FFFFF");
+        categoriesRepository.save(cat45);
+        Categorie cat46 = new Categorie("Depense", newUser.getLogin(), "Imprévus", 0, "Amendes", "FFFFF");
+        categoriesRepository.save(cat46);
+        Categorie cat47 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Salaires", "FFFFF");
+        categoriesRepository.save(cat47);
+        Categorie cat48 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Vente et rentrée de loyer", "FFFFF");
+        categoriesRepository.save(cat48);
+        Categorie cat49 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Remboursements", "FFFFF");
+        categoriesRepository.save(cat49);
+        Categorie cat50 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Allocation familiale", "FFFFF");
+        categoriesRepository.save(cat50);
+        Categorie cat51 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Aide", "FFFFF");
+        categoriesRepository.save(cat51);
+        Categorie cat52 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Divers", "FFFFF");
+        categoriesRepository.save(cat52);
+        Categorie cat53 = new Categorie("Revenus", newUser.getLogin(), "Divers", 0, "Cadeaux", "FFFFF");
+        categoriesRepository.save(cat53);
+
         userRepository.save(newUser);
+
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -153,6 +267,12 @@ public class UserService {
         userRepository.delete(existingUser);
         this.clearUserCaches(existingUser);
         return true;
+    }
+
+    public float soldeUser(String login) {
+        Optional<User> constants = userRepository.findOneByLogin(login);
+        User value = constants.orElseThrow(() -> new RuntimeException("No such data found"));
+        return value.getUserSolde();
     }
 
     public User createUser(AdminUserDTO userDTO) {

@@ -49,6 +49,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     private List<Categorie> UserCategories;
 
+    // private List<hisotrique> UserHistory;
+
+    private float userSolde;
+
     @Email
     @Size(min = 5, max = 254)
     @Indexed
@@ -189,8 +193,24 @@ public class User extends AbstractAuditingEntity implements Serializable {
         return UserCategories;
     }
 
-    public void setUserCategories(List<Categorie> userCategories) {
-        UserCategories = userCategories;
+    public void setUserCategories(Categorie category) {
+        UserCategories.add(category);
+    }
+
+    /*public List<hisotrique> getUserHistory() {
+        return UserHistory;
+    }
+
+    public void setUserHistory(List<hisotrique> userHistory) {
+        UserHistory = userHistory;
+    }
+*/
+    public float getUserSolde() {
+        return userSolde;
+    }
+
+    public void setUserSolde(float userSolde) {
+        this.userSolde = userSolde;
     }
 
     @Override

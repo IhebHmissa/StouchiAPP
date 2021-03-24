@@ -1,6 +1,7 @@
 package com.mycompany.myapp.domain;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +16,7 @@ public class Categorie {
     private String nomcatego;
     private String originType;
     private String color;
+    private String userLogin;
     private float Minmontant;
     private float Maxmontant;
     private List<Categorie> subcategories;
@@ -29,11 +31,13 @@ public class Categorie {
         float montant,
         String nomcatego,
         String color,
+        String userLogin,
         float minmontant,
         float maxmontant,
         periodicite periodcategorie
     ) {
         this.ID = ID;
+        this.userLogin = userLogin;
         this.type = type;
         this.montant = montant;
         this.nomcatego = nomcatego;
@@ -43,25 +47,45 @@ public class Categorie {
         this.periodcategorie = periodcategorie;
     }
 
-    public Categorie(String type, String originType, float montant, String nomcatego, String color, periodicite periodcategorie) {
+    public Categorie(
+        String type,
+        String userLogin,
+        String originType,
+        float montant,
+        String nomcatego,
+        String color,
+        periodicite periodcategorie
+    ) {
         this.type = type;
         this.montant = montant;
         this.nomcatego = nomcatego;
         this.color = color;
         this.originType = originType;
+        this.userLogin = userLogin;
         this.periodcategorie = periodcategorie;
     }
 
-    public Categorie(String type, String originType, float montant, String nomcatego, String color) {
+    public Categorie(String type, String userLogin, String originType, float montant, String nomcatego, String color) {
         this.type = type;
         this.montant = montant;
+        this.userLogin = userLogin;
         this.nomcatego = nomcatego;
         this.originType = originType;
         this.color = color;
     }
 
-    public Categorie(String type, String originType, float montant, String nomcatego, String color, float minmontant, float maxmontant) {
+    public Categorie(
+        String type,
+        String userLogin,
+        String originType,
+        float montant,
+        String nomcatego,
+        String color,
+        float minmontant,
+        float maxmontant
+    ) {
         this.type = type;
+        this.userLogin = userLogin;
         this.montant = montant;
         this.nomcatego = nomcatego;
         this.originType = originType;
@@ -97,6 +121,19 @@ public class Categorie {
             Maxmontant +
             '}'
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Categorie)) return false;
+        Categorie categorie = (Categorie) o;
+        return getNomcatego().equals(categorie.getNomcatego());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNomcatego());
     }
 
     public String getOriginType() {
@@ -177,5 +214,13 @@ public class Categorie {
 
     public void setPeriodcategorie(periodicite periodcategorie) {
         this.periodcategorie = periodcategorie;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 }
