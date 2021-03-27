@@ -1,12 +1,9 @@
-package com.mycompany.myapp.config.StouchiAPP;
+package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.domain.Categorie;
 import com.mycompany.myapp.repository.CategoriesRepository;
 import com.mycompany.myapp.service.mapper.CategorieAlreadyInTheSystemException;
-import com.mycompany.myapp.service.mapper.NoSuchCategorieFoundException;
 import java.util.List;
-import java.util.Optional;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,29 +13,32 @@ public class CategorieService {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
-    public List<Categorie> findAll() {
-        return categoriesRepository.findAll();
-    }
+    private HistoryService historyService;
 
-    public Optional<Categorie> findCategorie(String id) {
-        return categoriesRepository.findById(id);
-    }
-
-    public Categorie getById(String id) {
-        try {
-            return categoriesRepository.findById(id).get();
-        } catch (NoSuchCategorieFoundException ex) {
-            throw new NoSuchCategorieFoundException();
+    private float calculSommeCategori(String login, String nomcatego) {
+        float totlae = 0;
+        List<Categorie> listaa = categoriesRepository.findByUserLoginAndOriginType(login, nomcatego);
+        for (Categorie cat : listaa) {
+            totlae = totlae + cat.getMontant();
         }
+        return totlae;
     }
 
-    Categorie UpdateCatego(Categorie cat, String login) {
+    public Categorie UpdateCatego(Categorie cat, String login) {
         Categorie catNEW = categoriesRepository.findOneByUserLoginAndNomcatego(login, cat.getNomcatego());
+        //float montan=cat.getMontant();
         if (!cat.getColor().equals("")) catNEW.setColor(cat.getColor());
-        if (cat.getMaxmontant() != 0) catNEW.setMaxmontant(cat.getMaxmontant());
-        if (cat.getMinmontant() != 0) catNEW.setMinmontant(cat.getMinmontant());
+        catNEW.setMaxmontant(cat.getMaxmontant());
+        catNEW.setMinmontant(cat.getMinmontant());
         if (!cat.getNomcatego().equals("")) catNEW.setNomcatego(cat.getNomcatego());
-        if (cat.getMontant() != 0) catNEW.setMontant(cat.getMontant());
+        if (cat.getMontant() != 0) {
+            catNEW.setMontant(cat.getMontant() + catNEW.getMontant());
+            if (!cat.getOriginType().equals("Catego")) categoriesRepository
+                .findOneByUserLoginAndNomcatego(login, cat.getNomcatego())
+                .setMontant(calculSommeCategori(login, cat.getOriginType()));
+            /*HistoryLine hist = new HistoryLine (catNEW.getNomcatego(), LocalDateTime.now(),montan,login);
+                    historyService.save(hist);*/
+        }
         return categoriesRepository.save(catNEW);
     }
 
@@ -84,5 +84,15 @@ public class CategorieService {
 
     public List<Categorie> ReturnSpecificCategorie(String login, String nomcatego) {
         return categoriesRepository.findByUserLoginAndNomcatego(login, nomcatego);
+    }
+
+    public List<Categorie> prinPeriodCategories(String login) {
+        List<Categorie> lista = categoriesRepository.findByUserLoginAndPeriodcategorie(login, null);
+        List<Categorie> listaat = categoriesRepository.findByUserLogin(login);
+        for (Categorie cat : lista) {
+            listaat.remove(cat);
+        }
+
+        return listaat;
     }
 }

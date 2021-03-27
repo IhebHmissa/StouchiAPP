@@ -2,6 +2,8 @@ package com.mycompany.myapp.domain;
 
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,15 +13,29 @@ public class Categorie {
     @Id
     private String ID;
 
+    @NotNull
+    @Size(max = 10)
     private String type;
+
+    @NotNull
     private float montant;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     private String nomcatego;
+
+    @NotNull
+    @Size(min = 1, max = 50)
     private String originType;
+
+    @Size(max = 6)
     private String color;
+
+    @Size(min = 1, max = 50)
     private String userLogin;
+
     private float Minmontant;
     private float Maxmontant;
-    private List<Categorie> subcategories;
     private periodicite periodcategorie;
 
     public Categorie() {}
@@ -198,14 +214,6 @@ public class Categorie {
 
     public void setMaxmontant(float maxmontant) {
         Maxmontant = maxmontant;
-    }
-
-    public List<Categorie> getSubcategories() {
-        return subcategories;
-    }
-
-    public void setSubcategories(List<Categorie> subcategories) {
-        this.subcategories = subcategories;
     }
 
     public periodicite getPeriodcategorie() {

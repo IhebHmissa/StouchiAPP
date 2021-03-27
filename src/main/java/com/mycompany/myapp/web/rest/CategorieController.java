@@ -1,7 +1,7 @@
-package com.mycompany.myapp.config.StouchiAPP;
+package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Categorie;
-import com.mycompany.myapp.service.mapper.NoSuchCategorieFoundException;
+import com.mycompany.myapp.service.CategorieService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +79,10 @@ public class CategorieController {
         @PathVariable(value = "nomcatego") String nomcatego
     ) {
         return categorieService.ReturnSpecificCategorie(login, nomcatego);
+    }
+
+    @GetMapping("/Categories/categorieswithperiod/{login}")
+    public List<Categorie> prinPeriodCategoriesss(@PathVariable(value = "login") String login) {
+        return categorieService.prinPeriodCategories(login);
     }
 }
