@@ -47,10 +47,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Field("last_name")
     private String lastName;
 
-    private List<Categorie> UserCategories;
-
-    // private List<hisotrique> UserHistory;
-
     private float userSolde;
 
     @Email
@@ -187,14 +183,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
-    }
-
-    public List<Categorie> getUserCategories() {
-        return UserCategories;
-    }
-
-    public void setUserCategories(Categorie category) {
-        UserCategories.add(category);
     }
 
     /*public List<hisotrique> getUserHistory() {

@@ -31,11 +31,12 @@ public class CategorieService {
         catNEW.setMaxmontant(cat.getMaxmontant());
         catNEW.setMinmontant(cat.getMinmontant());
         if (!cat.getNomcatego().equals("")) catNEW.setNomcatego(cat.getNomcatego());
+        if (cat.getPeriodcategorie() != null) catNEW.setPeriodcategorie(cat.getPeriodcategorie());
         if (cat.getMontant() != 0) {
             catNEW.setMontant(cat.getMontant() + catNEW.getMontant());
-            if (!cat.getOriginType().equals("Catego")) categoriesRepository
-                .findOneByUserLoginAndNomcatego(login, cat.getNomcatego())
-                .setMontant(calculSommeCategori(login, cat.getOriginType()));
+            if (!catNEW.getOriginType().equals("Catego")) categoriesRepository
+                .findOneByUserLoginAndNomcatego(login, catNEW.getNomcatego())
+                .setMontant(calculSommeCategori(login, catNEW.getOriginType()));
             /*HistoryLine hist = new HistoryLine (catNEW.getNomcatego(), LocalDateTime.now(),montan,login);
                     historyService.save(hist);*/
         }

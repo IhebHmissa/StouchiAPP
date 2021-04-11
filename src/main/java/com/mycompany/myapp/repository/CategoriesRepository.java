@@ -10,6 +10,7 @@ public interface CategoriesRepository extends MongoRepository<Categorie, String>
     List<Categorie> findByNomcatego(String Nom);
     List<Categorie> findByUserLogin(String login);
     Optional<Categorie> findById(String userId);
+
     List<Categorie> findByUserLoginAndNomcatego(String userr, String typecatergo);
     Categorie findOneByUserLoginAndNomcatego(String userr, String typecatergo);
     List<Categorie> findByUserLoginAndOriginType(String userr, String origin);
