@@ -1,9 +1,14 @@
 package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.domain.Categorie;
+import com.mycompany.myapp.domain.HistoryLine;
+import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.CategoriesRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.service.mapper.CategorieAlreadyInTheSystemException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,32 +18,45 @@ public class CategorieService {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
+    @Autowired
     private HistoryService historyService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private float calculSommeCategori(String login, String nomcatego) {
-        float totlae = 0;
+        float totale = 0;
         List<Categorie> listaa = categoriesRepository.findByUserLoginAndOriginType(login, nomcatego);
         for (Categorie cat : listaa) {
-            totlae = totlae + cat.getMontant();
+            totale = totale + cat.getMontant();
         }
-        return totlae;
+        return totale;
     }
 
     public Categorie UpdateCatego(Categorie cat, String login) {
         Categorie catNEW = categoriesRepository.findOneByUserLoginAndNomcatego(login, cat.getNomcatego());
-        //float montan=cat.getMontant();
+        float montan = cat.getMontant();
+
         if (!cat.getColor().equals("")) catNEW.setColor(cat.getColor());
-        catNEW.setMaxmontant(cat.getMaxmontant());
-        catNEW.setMinmontant(cat.getMinmontant());
+        if (cat.getMaxmontant() != 0) catNEW.setMaxmontant(cat.getMaxmontant());
+        if (cat.getMinmontant() != 0) catNEW.setMinmontant(cat.getMinmontant());
         if (!cat.getNomcatego().equals("")) catNEW.setNomcatego(cat.getNomcatego());
         if (cat.getPeriodcategorie() != null) catNEW.setPeriodcategorie(cat.getPeriodcategorie());
         if (cat.getMontant() != 0) {
+            if (!cat.getOriginType().equals("Catego")) {
+                Categorie Categooo = categoriesRepository.findOneByUserLoginAndNomcatego(login, cat.getOriginType());
+                Categooo.setMontant(Categooo.getMontant() + cat.getMontant());
+                categoriesRepository.save(Categooo);
+            }
             catNEW.setMontant(cat.getMontant() + catNEW.getMontant());
-            if (!catNEW.getOriginType().equals("Catego")) categoriesRepository
-                .findOneByUserLoginAndNomcatego(login, catNEW.getNomcatego())
-                .setMontant(calculSommeCategori(login, catNEW.getOriginType()));
-            /*HistoryLine hist = new HistoryLine (catNEW.getNomcatego(), LocalDateTime.now(),montan,login);
-                    historyService.save(hist);*/
+            Optional<User> constants = userRepository.findOneByLogin(catNEW.getUserLogin());
+            User value = constants.orElseThrow(() -> new RuntimeException("No such data found"));
+            if (catNEW.getType().equals("Depense")) value.setUserSolde(cat.getMontant() + value.getUserSolde());
+            if (catNEW.getType().equals("Revenus")) value.setUserSolde(cat.getMontant() - value.getUserSolde());
+            userRepository.save(value);
+
+            HistoryLine hist = new HistoryLine(catNEW.getNomcatego(), LocalDateTime.now(), montan, catNEW.getUserLogin());
+            historyService.save(hist);
         }
         return categoriesRepository.save(catNEW);
     }

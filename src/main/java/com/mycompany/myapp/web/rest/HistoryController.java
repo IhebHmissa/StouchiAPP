@@ -27,7 +27,7 @@ public class HistoryController {
         return historyService.AfiicheerTouthistorique(login);
     }
 
-    @GetMapping("/{nomcateg}/{login}")
+    @GetMapping("/{login}/{nomcateg}")
     public List<HistoryLine> printallhistory(
         @PathVariable(value = "login") String login,
         @PathVariable(value = "nomcateg") String nomcateg

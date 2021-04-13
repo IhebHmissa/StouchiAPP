@@ -248,9 +248,9 @@ public class UserService {
         categoriesRepository.save(cat50);
         Categorie cat51 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Aide", "FFFFF");
         categoriesRepository.save(cat51);
-        Categorie cat52 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Divers", "FFFFF");
+        Categorie cat52 = new Categorie("Revenus", newUser.getLogin(), "Catego", 0, "Divers Revenus", "FFFFF");
         categoriesRepository.save(cat52);
-        Categorie cat53 = new Categorie("Revenus", newUser.getLogin(), "Divers", 0, "Cadeaux", "FFFFF");
+        Categorie cat53 = new Categorie("Revenus", newUser.getLogin(), "Divers Revenus", 0, "Cadeaux", "FFFFF");
         categoriesRepository.save(cat53);
 
         userRepository.save(newUser);
