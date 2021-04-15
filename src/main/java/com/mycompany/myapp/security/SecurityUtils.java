@@ -25,6 +25,11 @@ public final class SecurityUtils {
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
     }
 
+    public static String getCurrentUserLoginn() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return extractPrincipal(securityContext.getAuthentication());
+    }
+
     private static String extractPrincipal(Authentication authentication) {
         if (authentication == null) {
             return null;

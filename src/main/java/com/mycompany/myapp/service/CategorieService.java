@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,8 +52,8 @@ public class CategorieService {
             catNEW.setMontant(cat.getMontant() + catNEW.getMontant());
             Optional<User> constants = userRepository.findOneByLogin(catNEW.getUserLogin());
             User value = constants.orElseThrow(() -> new RuntimeException("No such data found"));
-            if (catNEW.getType().equals("Depense")) value.setUserSolde(cat.getMontant() + value.getUserSolde());
-            if (catNEW.getType().equals("Revenus")) value.setUserSolde(cat.getMontant() - value.getUserSolde());
+            if (catNEW.getType().equals("Depense")) value.setUserSolde(cat.getMontant() - value.getUserSolde());
+            if (catNEW.getType().equals("Revenus")) value.setUserSolde(cat.getMontant() + value.getUserSolde());
             userRepository.save(value);
 
             HistoryLine hist = new HistoryLine(catNEW.getNomcatego(), LocalDateTime.now(), montan, catNEW.getUserLogin());
@@ -61,6 +62,46 @@ public class CategorieService {
         return categoriesRepository.save(catNEW);
     }
 
+    // @Scheduled(cron="*/20 * * * * *", zone="Africa/Tunis")
+
+    //@Scheduled(cron="0 0 7 * * *", zone="Africa/Tunis") // every day at 7:00AM
+    /*
+    public void Scheduled_task ()
+    {
+        System.out.println("This a repeated task");
+        List<User> listaa = userRepository.findAll();
+        for ( User user :listaa) {
+            for (Categorie catego :FindAllCategories(user.getLogin()) )
+            {
+                if (catego.getPeriodcategorie()!=null)
+                {
+                    if (catego.getPeriodcategorie().getDate_fin()==null)
+                    {
+                        if (LocalDateTime.now().getDayOfMonth() == catego.getPeriodcategorie().getDate_deb().getDayOfMonth() & (catego.getPeriodcategorie().getNumberleft()>0))
+                            {
+                                catego.setMontant(catego.getMontant()+catego.getPeriodcategorie().getFixedMontant());
+                                categoriesRepository.save(catego);
+                                user.setUserSolde(user.getUserSolde()+catego.getPeriodcategorie().getFixedMontant());
+                                userRepository.save(user);
+                                HistoryLine hist = new HistoryLine(catego.getNomcatego(), LocalDateTime.now(), catego.getPeriodcategorie().getFixedMontant(), catego.getUserLogin());
+                                historyService.save(hist);
+                            }
+
+                    }
+                    else {
+                        if (LocalDateTime.now().getDayOfMonth()==catego.getPeriodcategorie().getDate_deb().getDayOfMonth())and()
+                        {
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    }
+*/
     private Categorie searchByname(Categorie cat, List<Categorie> categs) {
         String login = cat.getUserLogin();
         for (Categorie catt : categs) {

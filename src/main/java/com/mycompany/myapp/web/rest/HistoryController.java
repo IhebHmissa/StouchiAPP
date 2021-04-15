@@ -1,5 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
+import static com.mycompany.myapp.security.SecurityUtils.getCurrentUserLoginn;
+
 import com.mycompany.myapp.domain.HistoryLine;
 import com.mycompany.myapp.service.HistoryService;
 import java.util.List;
@@ -16,22 +18,19 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
-    @PostMapping(value = "/AddhistoyLine/{login}")
-    ResponseEntity<HistoryLine> addhistory(@PathVariable(value = "login") String login, @Valid @RequestBody HistoryLine histo) {
+    @PostMapping(value = "/AddhistoyLine")
+    ResponseEntity<HistoryLine> addhistory(@Valid @RequestBody HistoryLine histo) {
         HistoryLine result = historyService.save(histo);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all/{login}")
-    public List<HistoryLine> printallhistory(@PathVariable(value = "login") String login) {
-        return historyService.AfiicheerTouthistorique(login);
+    @GetMapping("/all")
+    public List<HistoryLine> printallhistory() {
+        return historyService.AfiicheerTouthistorique(getCurrentUserLoginn());
     }
 
-    @GetMapping("/{login}/{nomcateg}")
-    public List<HistoryLine> printallhistory(
-        @PathVariable(value = "login") String login,
-        @PathVariable(value = "nomcateg") String nomcateg
-    ) {
-        return historyService.AfiicheerAvecnom(login, nomcateg);
+    @GetMapping("/{nomcateg}")
+    public List<HistoryLine> printallhistory(@PathVariable(value = "nomcateg") String nomcateg) {
+        return historyService.AfiicheerAvecnom(getCurrentUserLoginn(), nomcateg);
     }
 }

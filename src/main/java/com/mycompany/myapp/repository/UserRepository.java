@@ -23,7 +23,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> findOneByActivationKey(String activationKey);
 
     List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
-    // Optional<User> findById(String id);
     Optional<User> findOneByResetKey(String resetKey);
 
     @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)

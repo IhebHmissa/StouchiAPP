@@ -1,5 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
+import static com.mycompany.myapp.security.SecurityUtils.getCurrentUserLoginn;
+
 import com.mycompany.myapp.domain.Categorie;
 import com.mycompany.myapp.service.CategorieService;
 import java.util.List;
@@ -29,60 +31,51 @@ public class CategorieController {
     Update The Category
     */
 
-    @PutMapping("/Categories/{login}/{nomcatego}")
-    public ResponseEntity<Categorie> updateCategory(@PathVariable(value = "login") String login, @Valid @RequestBody Categorie cat) {
-        Categorie result = categorieService.UpdateCatego(cat, login);
+    @PutMapping("/Categories/{nomcatego}")
+    public ResponseEntity<Categorie> updateCategory(@Valid @RequestBody Categorie cat) {
+        Categorie result = categorieService.UpdateCatego(cat, getCurrentUserLoginn());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /*
       Delete Category
     */
-    @DeleteMapping("/Categories/{login}/{nomcatego}")
-    public ResponseEntity<Void> deleteCategory(
-        @PathVariable(value = "login") String login,
-        @PathVariable(value = "nomcatego") String catname
-    ) {
-        categorieService.delete(login, catname);
+    @DeleteMapping("/Categories/{nomcatego}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable(value = "nomcatego") String catname) {
+        categorieService.delete(getCurrentUserLoginn(), catname);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /*
     All the Categories ( Depence + Rebate )
      */
-    @GetMapping("/Categories/{login}")
-    public List<Categorie> getAllCategories(@PathVariable(value = "login") String login) {
-        return categorieService.FindAllCategories(login);
+    @GetMapping("/Categories")
+    public List<Categorie> getAllCategories() {
+        return categorieService.FindAllCategories(getCurrentUserLoginn());
     }
 
-    @GetMapping("/Categories/depenseCatego/{login}")
-    public List<Categorie> getDepenseCategories(@PathVariable(value = "login") String login) {
-        return categorieService.FindADepenseCategories(login);
+    @GetMapping("/Categories/depenseCatego")
+    public List<Categorie> getDepenseCategories() {
+        return categorieService.FindADepenseCategories(getCurrentUserLoginn());
     }
 
-    @GetMapping("/Categories/revenusCatego/{login}")
-    public List<Categorie> getRevenusCategories(@PathVariable(value = "login") String login) {
-        return categorieService.RevenusCategories(login);
+    @GetMapping("/Categories/revenusCatego")
+    public List<Categorie> getRevenusCategories() {
+        return categorieService.RevenusCategories(getCurrentUserLoginn());
     }
 
-    @GetMapping("/Categories/SousCategories/{login}/{nomcatego}")
-    public List<Categorie> getSousCategorie(
-        @PathVariable(value = "login") String login,
-        @PathVariable(value = "nomcatego") String nomcatego
-    ) {
-        return categorieService.sousCategeories(login, nomcatego);
+    @GetMapping("/Categories/SousCategories/{nomcatego}")
+    public List<Categorie> getSousCategorie(@PathVariable(value = "nomcatego") String nomcatego) {
+        return categorieService.sousCategeories(getCurrentUserLoginn(), nomcatego);
     }
 
-    @GetMapping("/Categories/specificCategorie/{login}/{nomcatego}")
-    public List<Categorie> getSpecificCategorie(
-        @PathVariable(value = "login") String login,
-        @PathVariable(value = "nomcatego") String nomcatego
-    ) {
-        return categorieService.ReturnSpecificCategorie(login, nomcatego);
+    @GetMapping("/Categories/specificCategorie/{nomcatego}")
+    public List<Categorie> getSpecificCategorie(@PathVariable(value = "nomcatego") String nomcatego) {
+        return categorieService.ReturnSpecificCategorie(getCurrentUserLoginn(), nomcatego);
     }
 
-    @GetMapping("/Categories/categorieswithperiod/{login}")
-    public List<Categorie> prinPeriodCategoriesss(@PathVariable(value = "login") String login) {
-        return categorieService.prinPeriodCategories(login);
+    @GetMapping("/Categories/categorieswithperiod")
+    public List<Categorie> prinPeriodCategoriesss() {
+        return categorieService.prinPeriodCategories(getCurrentUserLoginn());
     }
 }

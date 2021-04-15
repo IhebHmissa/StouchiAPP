@@ -1,5 +1,7 @@
 package com.mycompany.myapp.web.rest;
 
+import static com.mycompany.myapp.security.SecurityUtils.getCurrentUserLoginn;
+
 import com.mycompany.myapp.domain.Categorie;
 import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.UserRepository;
@@ -57,9 +59,9 @@ public class AccountResource {
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
-    @GetMapping("/usersolde/{login}")
-    public float getSousCategorie(@PathVariable(value = "login") String login) {
-        return userService.soldeUser(login);
+    @GetMapping("/usersolde")
+    public float getSousCategorie() {
+        return userService.soldeUser(getCurrentUserLoginn());
     }
 
     @PostMapping("/register")
